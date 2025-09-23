@@ -1,0 +1,33 @@
+{
+    "name": "@bradleyhodges/sfsymbols-types",
+    "description": "Types for @bradleyhodges/sfsymbols-* packages.",
+    "version": "7.0.4",
+    "main": "dist/main/index.js",
+    "module": "dist/module/index.js",
+    "scripts": {
+        "build": "rimraf ./dist && tsc && tsc && tsc -p tsconfig.main.json",
+        "pub": "npm publish --access public --no-git-checks",
+        "bump-deps": "npx npm-check-updates --deep -u && pnpm up --latest --recursive && pnpm run format",
+        "format": "biome check . --write --skip-errors",
+        "clean": "git clean -xdf .cache .turbo node_modules -f",
+        "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/module/index.js",
+            "require": "./dist/main/index.js"
+        }
+    },
+    "repository": "https://github.com/bradleyhodges/sfsymbols-types",
+    "bugs": {
+        "url": "https://github.com/bradleyhodges/sfsymbols-types/issues"
+    },
+    "author": "Bradley Hodges",
+    "devDependencies": {
+        "@types/node": "24.0.7",
+        "@types/react": "^19.1.6",
+        "@types/react-dom": "19.1.6",
+        "@biomejs/biome": "1.9.4",
+        "rimraf": "^6.0.1"
+    }
+}
