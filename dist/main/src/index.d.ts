@@ -1,3 +1,4 @@
+import React from "react";
 /**
  * Represents the definition of an icon for use in @bradleyhodges/sfsymbols.
  */
