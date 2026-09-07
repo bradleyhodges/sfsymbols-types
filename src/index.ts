@@ -1,5 +1,21 @@
 import React from "react";
 
+/** Original icon geometry and paint attributes, exposed read-only to path callbacks. */
+export type SFIconPath = Readonly<IconDefinition["svgPathData"][number]>;
+
+/** Validated keyword metadata. Legacy string dictionaries supply only text. */
+export interface SFIconKeyword {
+    readonly text: string;
+    readonly generic?: boolean;
+    readonly priority?: number;
+}
+
+/** Per-path presentation and event props; geometry and child ownership stay with SFIcon. */
+export type SFIconPathProps = Omit<
+    React.SVGProps<SVGPathElement>,
+    "d" | "key" | "ref" | "children" | "dangerouslySetInnerHTML"
+>;
+
 /**
  * Represents the definition of an icon for use in @bradleyhodges/sfsymbols.
  */
@@ -29,12 +45,17 @@ export interface IconDefinition {
     /**
      * The width of the icon.
      */
-    width: number;
+    width?: React.SVGProps<SVGSVGElement>["width"];
 
     /**
      * The height of the icon.
      */
-    height: number;
+    height?: React.SVGProps<SVGSVGElement>["height"];
+
+    /**
+     * The accessible title to be rendered on the icon in the SVG element.
+     */
+    description?: string;
 
     /**
      * The viewBox attribute of the icon's SVG.
@@ -52,6 +73,26 @@ export interface IconDefinition {
      * the optional 'fill' color, and an optional 'fillOpacity'.
      */
     svgPathData: Array<{ d: string; fill?: string; fillOpacity?: number }>;
+
+    /**
+     * An optional ID for the title element in the SVG element. Overrides the automatically generated title ID.
+     */
+    titleId?: string;
+
+    /**
+     * An optional ID for the description element in the SVG element. Overrides the automatically generated description ID.
+     */
+    descriptionId?: string;
+
+    /**
+     * Additional SVG content rendered before paths.
+     */
+    svgChildren?: React.ReactNode;
+
+    /**
+     * Whether to preserve source path opacity with weight; explicit fillOpacity still takes precedence.
+     */
+    preservePathOpacity?: boolean;
 
     /**
      * The available variants of the icon.
@@ -85,6 +126,13 @@ export interface IconDefinition {
         | null
         // biome-ignore lint/complexity/noBannedTypes: This is a workaround to avoid complex type errors that we can't reasonably fix
         | {};
+
+    /**
+     * Explicit path overrides, applied after color and opacity. Original geometry is immutable.
+     */
+    pathProps?:
+        | SFIconPathProps
+        | ((path: SFIconPath, index: number) => SFIconPathProps);
 }
 
 export type SFIconVariant =
@@ -118,11 +166,40 @@ export interface SFIconProps
         React.SVGProps<SVGSVGElement>,
         "ref" | "color" | "width" | "height" | "fillOpacity"
     > {
+    /**
+     * The @bradleyhodges/sfsymbols icon to be rendered.
+     */
     icon: IconDefinition;
+
+    /**
+     * The color of the icon.
+     * @default 'currentColor'
+     */
     color?: React.CSSProperties["color"];
+
+    /**
+     * Weight (pixels) of the stroke to add to the icon.
+     */
     weight?: number | null;
+
+    /**
+     * Optional fill opacity for the icon.
+     */
     fillOpacity?: string | number | null;
+
+    /**
+     * Sets the visual size (width and height) of the icon in pixels.
+     * @default 24
+     */
     size?: number | string | null;
+
+    /**
+     * The accessible title to be rendered on the icon in the SVG element.
+     */
     title?: string;
+
+    /**
+     * The accessible aria label for the icon.
+     */
     "aria-label"?: string;
 }
