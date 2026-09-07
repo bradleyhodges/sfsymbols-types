@@ -1,7 +1,7 @@
 {
     "name": "@bradleyhodges/sfsymbols-types",
     "description": "Types for @bradleyhodges/sfsymbols-* packages.",
-    "version": "8.0.4",
+    "version": "8.1.1",
     "main": "dist/main/index.js",
     "module": "dist/module/index.js",
     "scripts": {
