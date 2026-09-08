@@ -53,11 +53,6 @@ export interface IconDefinition {
     height?: React.SVGProps<SVGSVGElement>["height"];
 
     /**
-     * The accessible title to be rendered on the icon in the SVG element.
-     */
-    description?: string;
-
-    /**
      * The viewBox attribute of the icon's SVG.
      */
     viewBox: string;
@@ -73,26 +68,6 @@ export interface IconDefinition {
      * the optional 'fill' color, and an optional 'fillOpacity'.
      */
     svgPathData: Array<{ d: string; fill?: string; fillOpacity?: number }>;
-
-    /**
-     * An optional ID for the title element in the SVG element. Overrides the automatically generated title ID.
-     */
-    titleId?: string;
-
-    /**
-     * An optional ID for the description element in the SVG element. Overrides the automatically generated description ID.
-     */
-    descriptionId?: string;
-
-    /**
-     * Additional SVG content rendered before paths.
-     */
-    svgChildren?: React.ReactNode;
-
-    /**
-     * Whether to preserve source path opacity with weight; explicit fillOpacity still takes precedence.
-     */
-    preservePathOpacity?: boolean;
 
     /**
      * The available variants of the icon.
@@ -126,13 +101,6 @@ export interface IconDefinition {
         | null
         // biome-ignore lint/complexity/noBannedTypes: This is a workaround to avoid complex type errors that we can't reasonably fix
         | {};
-
-    /**
-     * Explicit path overrides, applied after color and opacity. Original geometry is immutable.
-     */
-    pathProps?:
-        | SFIconPathProps
-        | ((path: SFIconPath, index: number) => SFIconPathProps);
 }
 
 export type SFIconVariant =
@@ -157,7 +125,13 @@ export type SFIconVariant =
  * @property {number | null} [fillOpacity] - Optional fill opacity for the icon, can be null. Defaults to null.
  * @property {number | null} [size] - Optional size for the icon, can be null. Defaults to null.
  * @property {string} [title] - Optional title for the icon.
+ * @property {string} [description] - Optional description for the icon.
  * @property {string} [aria-label] - Optional aria label for the icon.
+ * @property {string} [titleId] - Optional ID for the title element in the SVG element. Overrides the automatically generated title ID.
+ * @property {string} [descriptionId] - Optional ID for the description element in the SVG element. Overrides the automatically generated description ID.
+ * @property {React.ReactNode} [svgChildren] - Optional additional SVG content rendered before paths.
+ * @property {boolean} [preservePathOpacity] - Whether to preserve source path opacity with weight; explicit fillOpacity still takes precedence.
+ * @property {SFIconPathProps | ((path: SFIconPath, index: number) => SFIconPathProps)} [pathProps] - Optional explicit path overrides for the icon.
  *
  * This type also includes all properties from `React.SVGProps<SVGSVGElement>` as optional.
  */
@@ -199,7 +173,39 @@ export interface SFIconProps
     title?: string;
 
     /**
+     * The accessible title to be rendered on the icon in the SVG element.
+     */
+    description?: string;
+
+    /**
      * The accessible aria label for the icon.
      */
     "aria-label"?: string;
+
+    /**
+     * An optional ID for the title element in the SVG element. Overrides the automatically generated title ID.
+     */
+    titleId?: string;
+
+    /**
+     * An optional ID for the description element in the SVG element. Overrides the automatically generated description ID.
+     */
+    descriptionId?: string;
+
+    /**
+     * Additional SVG content rendered before paths.
+     */
+    svgChildren?: React.ReactNode;
+
+    /**
+     * Whether to preserve source path opacity with weight; explicit fillOpacity still takes precedence.
+     */
+    preservePathOpacity?: boolean;
+
+    /**
+     * Explicit path overrides, applied after color and opacity. Original geometry is immutable.
+     */
+    pathProps?:
+        | SFIconPathProps
+        | ((path: SFIconPath, index: number) => SFIconPathProps);
 }
