@@ -120,6 +120,8 @@ export type SFIconVariant =
  *
  * @property {IconDefinition} icon - The icon definition to be used.
  * @property {string} [color] - Optional color for the icon.
+ * @property {string | number} [width] - Optional width for the icon.
+ * @property {string | number} [height] - Optional height for the icon.
  * @property {string} [className] - Optional CSS class name for the icon.
  * @property {number | null} [weight] - Optional weight for the icon, can be null. Defaults to null.
  * @property {number | null} [fillOpacity] - Optional fill opacity for the icon, can be null. Defaults to null.
@@ -150,6 +152,16 @@ export interface SFIconProps
      * @default 'currentColor'
      */
     color?: React.CSSProperties["color"];
+
+    /**
+     * The width of the icon.
+     */
+    width?: React.SVGProps<SVGSVGElement>["width"];
+
+    /**
+     * The height of the icon.
+     */
+    height?: React.SVGProps<SVGSVGElement>["height"];
 
     /**
      * Weight (pixels) of the stroke to add to the icon.
